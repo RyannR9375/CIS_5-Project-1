@@ -41,8 +41,8 @@ int main(int argc, char** argv) {
             crdCnt; //AMOUNT OF CARDS PLAYER HAS IN DECK
     
     string suit1, suit2, //USED TO COMPARE AND FIND WHAT SUIT PLAYERS CARDS HAS
-           card1, card2, //USED TO COMPARE AND FIND WHAT CARDS PLAYER HAS
-            oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE
+           card1, card2; //USED TO COMPARE AND FIND WHAT CARDS PLAYER HAS
+            
     
     //ENEMY BOT VALUES
     int enCrd1, enemSt1,//ENEMY CARD 1 VALUE AND SUIT
@@ -56,9 +56,11 @@ int main(int argc, char** argv) {
             eChoice; //WHEN THE ENEMY RECIEVES AN ACE
     
     //OTHER
-    char choiceM;
-    
-   
+    char choiceM, continu;
+    int maxVal = 21, //HIGHEST VALUE BEFORE YOU LOSE
+    pile = 4, //STANDARD SIZE OF PILE
+    oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE//HOW MANY CARDS ARE ON THE LINE? (WILL BE USED IN A FUNCTION & CALL FROM ARRAY IN P2) WILL BE STATIC
+    bool gameOvr = false; //BOOL TO CHECK IF GAME IS OVER
     
     //Initialize Variables
     crdCnt = 0;
@@ -86,7 +88,8 @@ int main(int argc, char** argv) {
             "The cards will now be shuffled & distributed.\n\n";
     
     //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS
-    
+    while(gameOvr == false){
+        
                                     //PLAYER
     for(int i = 0; i < 2; i++){
         numCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
@@ -278,11 +281,11 @@ int main(int argc, char** argv) {
         bool isValid = false;
         //ENSURES THE USER INPUTS A VALID DECISION
         while(isValid == false){
-            if(oneOrNo == "1"){
+            if(oneOrNo == 1){
             cardVal1 = 1;
             isValid = true;
         }
-        else if(oneOrNo == "11"){
+        else if(oneOrNo == 11){
             cardVal1 = 11;
             isValid = true;
         }
@@ -301,11 +304,11 @@ int main(int argc, char** argv) {
         
         //ENSURES THE USER INPUTS A VALID DECISION
         while(isValid == false){
-            if(oneOrNo == "1"){
+            if(oneOrNo == 1){
                 cardVal2 = 1;
                 isValid = true;
         }
-        else if(oneOrNo == "11"){
+        else if(oneOrNo == 11){
                 cardVal2 = 11;
                 isValid = true;
         }
@@ -329,14 +332,76 @@ int main(int argc, char** argv) {
                 "The enemy's total was " << enTotal << endl;
     else{
         cout << "Your total was " << total << ".\n" <<
-                "The enemy's total was " << enTotal << endl;;
+                "The enemy's total was " << enTotal << "." << endl;;
     }
     
     //WHO WON THIS ROUND
-    if(total > enTotal){
-        cout << "You won this round. 4 cards have been added to your pile.";
-        
+    if(total > enTotal && total < maxVal){ //PLAYER WON
+        cout << "You won this round. " << pile << " cards have been added to your deck.\n\n";
+        crdCnt += pile;
+        deckRem -= pile;
+    }else if(enTotal > total && enTotal < maxVal){ //ENEMY WON
+        cout << "You have lost this round. " << pile << " cards have been added to the enemy's deck.\n\n";
+        crdCntE += pile;
+        deckRem -= pile;
+    }else if(enTotal == total){ // TIE
+        cout << "You have tied with the enemy. The stakes will now be doubled.\n\n";
+        pile = pile + pile;
+        deckRem -= pile;
     }
+    else if(enTotal > maxVal && total > maxVal){ //BOTH WENT ABOVE MAX VALUE
+        cout << "Your totals both went above the 21 and therefore you have tied with the enemy. The stakes will now be doubled.\n\n";
+        pile = pile + pile;
+        deckRem -= pile;
+    }else if(enTotal > total && enTotal > maxVal && total < maxVal){ //IF ENEMY WENT OVER VALUE AND YOU DIDNT
+        cout << "You won this round. " << pile << " cards have been added to your deck.\n\n";
+        crdCnt += pile;
+        deckRem -= pile;
+    }else if(total > enTotal && total > maxVal && enTotal < maxVal){ //IF YOU WENT OVER VALUE AND ENEMY DIDNT
+        cout << "You have lost this round. " << pile << " cards have been added to the enemy's deck.\n\n";
+        crdCntE += pile;
+        deckRem -= pile;
+    }
+    //PRINT HOW MUCH CARDS ARE IN BOTH PILES AND HOW MUCH ARE REMAINING IN THE MAIN DECK
+    cout << "Your Deck: " << crdCnt << "     "
+            "Enemy Deck: " << crdCntE << "     "
+            "Remaining Cards: " << deckRem << endl;
+    
+    //WILL BE FOR LOOPED WITH ROUND COUNTERS IN P2
+    if(deckRem > 0){
+        cout << "Enter R when you are ready for the next round.\nEnter N to stop playing.\n";
+        cin >> continu;
+        bool isValid = false; //
+    
+        while(isValid == false){
+        if(continu == 'R'){
+            cout << "\n\n\n\n NEXT ROUND\n";
+            isValid = true;
+        }else if(continu == 'N'){
+            isValid = true;
+            cout << "Exiting game.";
+            exit(0);
+        }else if(deckRem <= 0){
+            cout << "The deck is empty and the game is now over.\n\n";
+            gameOvr = true;
+        }else{
+            cout << "Invalid input. Please enter R to keep playing, or N to stop playing.\n";
+            cin >> continu;
+            }
+        }
+    }
+    
+    }
+                            //POST GAME
+    
+    if(crdCnt > crdCntE) //PLAYER WON
+        cout << "               YOU WIN!\n           CONGRATULATIONS!";
+    else if(crdCntE > crdCnt) // ENEMY WON
+        cout << "               YOU LOST!\n          BETTER LUCK NEXT TIME!";
+    else if(crdCnt == crdCntE)
+        cout << "               YOU TIED!\n          WHAT ARE THE CHANCES!";
+
+    
     
     //Clean up memory and files
     
