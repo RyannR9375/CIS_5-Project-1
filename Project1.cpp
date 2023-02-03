@@ -85,9 +85,12 @@ int main(int argc, char** argv) {
             "Enter '1' to PLAY\n" <<
             "Enter '2' for HELP\n" <<
             "Enter '3' to EXIT\n";
-            cin >> choiceM;
+            cin >> choiceM; 
+            if(choiceM != '1' || choiceM != '2' || choiceM != '3' || choiceM != '0') 
+                isValid = false; break;
         case '1': /* GAME */ isValid = true; break; // EVENTUAL FUNCTION IN P2
-        case '2': /* INSTRUCTIONS */ cout << "------------\nINSTRUCTIONS\n------------\n\n\n" <<
+        case '2': /* INSTRUCTIONS */ isValid = true;
+                cout << "------------\nINSTRUCTIONS\n------------\n\n\n" <<
                 "21 is a card game where you are given two cards every round. Each card has a value." <<
                 "Number cards retain the value of their number. EX: The 3 of Spades has a value of 3." <<
                 "Face cards retain a value of 10. EX: The Queen of Hearts has a value of 10." << 
@@ -98,7 +101,7 @@ int main(int argc, char** argv) {
                 "The player with the highest amount of cards collected at the end of the game wins.\n" <<
                 "TO RETURN TO MENU ENTER 0, TO PLAY ENTER 1, TO EXIT ENTER 3.\n";
                 cin >> choiceM; 
-                if(choiceM != '0' || choiceM != '1' || choiceM != '3')
+                if(choiceM != '1' || choiceM != '2' || choiceM != '3' || choiceM != '0') 
                     isValid = false; break;
         case '3': cout << "Exiting game."; exit(0); break;
         default: cout << "Invalid input please enter 0 to return to the Main Menu, " <<
