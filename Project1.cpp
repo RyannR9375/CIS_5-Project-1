@@ -34,24 +34,26 @@ int main(int argc, char** argv) {
     int deckRem = deckSz;
     
     //PLAYERS VALUES
-    int numCrd1, suitCrd1,
-        numCrd2, suitCrd2,
-        cardVal1, cardVal2,
-        total, crdCnt;
+    int numCrd1, suitCrd1,//PLAYERS CARD 1 VALUE AND SUIT
+        numCrd2, suitCrd2,// PLAYERS CARD 2 VALUE AND SUIT
+        cardVal1, cardVal2, //VALUE OF PLAYERS CARD 
+        total, //TOTAL VALUE OF PLAYERS CARDS
+            crdCnt; //AMOUNT OF CARDS PLAYER HAS IN DECK
     
-    string suit1, suit2, 
-           card1, card2,
-            oneOrNo;
+    string suit1, suit2, //USED TO COMPARE AND FIND WHAT SUIT PLAYERS CARDS HAS
+           card1, card2, //USED TO COMPARE AND FIND WHAT CARDS PLAYER HAS
+            oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE
     
     //ENEMY BOT VALUES
-    int enCrd1, enemSt1,
-        enCrd2, enemSt2,
-        enemV1, enemV2,
-        enTotal, crdCntE;
+    int enCrd1, enemSt1,//ENEMY CARD 1 VALUE AND SUIT
+        enCrd2, enemSt2, // ENEMY CARD 2 VALUE AND SUIT
+        enemV1, enemV2, //VALUE OF ENEMYS CARD 
+        enTotal, //TOTAL VALUE OF ENEMIES CARDS
+            crdCntE; //AMOUNT OF CARDS ENEMY HAS IN DECK
     
-    string eSuit1, eSuit2, 
-           eCard1, eCard2,
-            eChoice;
+    string eSuit1, eSuit2, //USED TO COMPARE AND FIND WHAT SUIT ENEMYS CARDS HAS
+           eCard1, eCard2, //USED TO COMPARE AND FIND WHAT CARDS ENEMY HAS
+            eChoice; //WHEN THE ENEMY RECIEVES AN ACE
     
     //OTHER
     char choiceM;
@@ -59,7 +61,8 @@ int main(int argc, char** argv) {
    
     
     //Initialize Variables
-    
+    crdCnt = 0;
+    crdCntE = 0;
     //WELCOME MESSAGE & MENU (WILL BE REPLACED WITH A FUNCTION IN PROJECT 2)
     cout << "Welcome to 21: The Card Game\n----------------------------\n" <<
             "Enter '1' to PLAY\n" <<
@@ -330,7 +333,10 @@ int main(int argc, char** argv) {
     }
     
     //WHO WON THIS ROUND
-    
+    if(total > enTotal){
+        cout << "You won this round. 4 cards have been added to your pile.";
+        
+    }
     
     //Clean up memory and files
     
