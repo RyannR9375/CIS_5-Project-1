@@ -58,8 +58,8 @@ int main(int argc, char** argv) {
     //OTHER
     char choiceM, continu;
     int maxVal = 21, //HIGHEST VALUE BEFORE YOU LOSE
-    pile = 4, //STANDARD SIZE OF PILE
-    oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE//HOW MANY CARDS ARE ON THE LINE? (WILL BE USED IN A FUNCTION & CALL FROM ARRAY IN P2) WILL BE STATIC
+    pile = 4; //STANDARD SIZE OF PILE
+    string oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE//HOW MANY CARDS ARE ON THE LINE? (WILL BE USED IN A FUNCTION & CALL FROM ARRAY IN P2) WILL BE STATIC
     bool gameOvr = false; //BOOL TO CHECK IF GAME IS OVER
     
     //Initialize Variables
@@ -74,20 +74,50 @@ int main(int argc, char** argv) {
     
     //Map/Process the Inputs -> Outputs
     
-    //MENU SWITCH CASE (FUNCTION IN P2)
+    //MENU SWITCH CASE (FUNCTION IN P2) //BROKEN RN
+    bool isValid = false;
+    while(isValid == false){
     switch(choiceM){
-        case '1': /* GAME */ break;
-        case '2': /* INSTRUCTIONS */ cout << "------------\nINSTRUCTIONS\n------------\n\n\n"; break;
-        case '3': exit(0);
+        case '0': //WELCOME MESSAGE & MENU (WILL BE REPLACED WITH A FUNCTION IN PROJECT 2)
+            isValid = true;
+            cout <<
+            "Welcome to 21: The Card Game\n----------------------------\n" <<
+            "Enter '1' to PLAY\n" <<
+            "Enter '2' for HELP\n" <<
+            "Enter '3' to EXIT\n";
+            cin >> choiceM;
+        case '1': /* GAME */ isValid = true; break; // EVENTUAL FUNCTION IN P2
+        case '2': /* INSTRUCTIONS */ cout << "------------\nINSTRUCTIONS\n------------\n\n\n" <<
+                "21 is a card game where you are given two cards every round. Each card has a value." <<
+                "Number cards retain the value of their number. EX: The 3 of Spades has a value of 3." <<
+                "Face cards retain a value of 10. EX: The Queen of Hearts has a value of 10." << 
+                "An Ace leaves you with the decision to choose its value of 1 or 11." <<
+                "The goal of this game is to win as many rounds as possible. Winning a round grants you with the cards in the pile, and at play that round." <<
+                "If you tie, the cards you just played with will be added to the pile and you will continue rounds until somebody wins." <<
+                "The game is over when there are no more remaining cards in the deck." << 
+                "The player with the highest amount of cards collected at the end of the game wins.\n" <<
+                "TO RETURN TO MENU ENTER 0, TO PLAY ENTER 1, TO EXIT ENTER 3.\n";
+                cin >> choiceM; 
+                if(choiceM != '0' || choiceM != '1' || choiceM != '3')
+                    isValid = false; break;
+        case '3': cout << "Exiting game."; exit(0); break;
+        default: cout << "Invalid input please enter 0 to return to the Main Menu, " <<
+                              "enter 1 to play the game, enter 2 for help, or enter 3 to exit.\n";
+                isValid = false;
+                cin >> choiceM;
+        }
     }
+    
     
     //Display Inputs/Outputs
     
-                             //THE GAME
+                             //TITLE
     cout << "               GAME STARTED                \n" <<
             "The cards will now be shuffled & distributed.\n\n";
     
     //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS
+    
+                            //THE GAME
     while(gameOvr == false){
         
                                     //PLAYER
@@ -201,18 +231,28 @@ int main(int argc, char** argv) {
     }
     
     //MAKES SURE THE CARDS ARE NOT THE SAME, IF THEY AREM RE-ASIGN VALUES
-    if(numCrd1 == enCrd1 && suitCrd1 == enemSt1){
-        numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-    }
-    if(numCrd2 == enCrd2 && suitCrd2 == enemSt2){
-        numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-    }
-    if(enCrd1 == enCrd2 && enemSt1 == enemSt2){
-        numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-    }
+        if(numCrd1 == enCrd1 && suitCrd1 == enemSt1){
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd2 = num1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd2 = num2; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        
+        if(numCrd2 == enCrd2 && suitCrd2 == enemSt2){
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(enCrd1 == enCrd2 && enemSt1 == enemSt2){
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
     
     //DECIDES WHAT THE SECOND CARD IS BASED ON THE RANDOM (FUNCTION IN P2)
     switch(enCrd2){
@@ -274,48 +314,49 @@ int main(int argc, char** argv) {
     //////////////////////////
     
     //IF THE USER GETS AN ACE, HE GETS TO PICK BETWEEN 1 OR 11 (FUNCTION IN P2, CARD1 & CARD2 WILL BE AN ARRAY)
+    bool isValid = false;
     if(card1 == "Ace"){
         cout << "You got an Ace, which means you get to pick if the value of this card" <<
                 " will be 1, or 11. Please input 1 or 11 to choose.\n";
         cin >> oneOrNo;
-        bool isValid = false;
+        
         //ENSURES THE USER INPUTS A VALID DECISION
         while(isValid == false){
-            if(oneOrNo == 1){
-            cardVal1 = 1;
-            isValid = true;
-        }
-        else if(oneOrNo == 11){
-            cardVal1 = 11;
-            isValid = true;
-        }
-        else{
-            cout << "Invalid input. Please pick 1 or 11.\n";
-            cin >> oneOrNo;
-        }
+            if(oneOrNo == "1"){
+                isValid = true;
+                cardVal1 = 1;
+            }
+            else if(oneOrNo == "11"){
+                isValid = true;
+                cardVal1 = 11;
+            }
+            else if(oneOrNo != "11" && oneOrNo != "1"){
+                cout << "Invalid input. Please pick 1 or 11.\n";
+                cin >> oneOrNo;
+            }
        }
     }
     
+    isValid = false;
     if(card2 == "Ace"){
         cout << "You got an Ace, which means you get to pick if the value of this card" <<
                 " will be 1, or 11. Please input 1 or 11 to choose.\n";
         cin >> oneOrNo;
-        bool isValid;
         
         //ENSURES THE USER INPUTS A VALID DECISION
-        while(isValid == false){
-            if(oneOrNo == 1){
+        while(!isValid){
+            if(oneOrNo == "1"){
+                isValid = true;
                 cardVal2 = 1;
+            }
+            else if(oneOrNo == "11"){
                 isValid = true;
-        }
-        else if(oneOrNo == 11){
                 cardVal2 = 11;
-                isValid = true;
-        }
-        else{
-            cout << "Invalid input. Please pick 1 or 11.\n";
-            cin >> oneOrNo;
-        }
+            }
+            else if(oneOrNo != "11" && oneOrNo != "1"){
+                cout << "Invalid input. Please pick 1 or 11.\n";
+                cin >> oneOrNo;
+            }
         }
     }
     
@@ -371,27 +412,28 @@ int main(int argc, char** argv) {
     if(deckRem > 0){
         cout << "Enter R when you are ready for the next round.\nEnter N to stop playing.\n";
         cin >> continu;
-        bool isValid = false; //
+        bool valid = false; //
     
-        while(isValid == false){
+        while(valid == false){
         if(continu == 'R'){
             cout << "\n\n\n\n NEXT ROUND\n";
-            isValid = true;
+            valid = true;
         }else if(continu == 'N'){
-            isValid = true;
+            valid = true;
             cout << "Exiting game.";
             exit(0);
-        }else if(deckRem <= 0){
-            cout << "The deck is empty and the game is now over.\n\n";
-            gameOvr = true;
         }else{
             cout << "Invalid input. Please enter R to keep playing, or N to stop playing.\n";
             cin >> continu;
             }
         }
+        
+    }else if(deckRem <= 0){
+            cout << "The deck is empty and the game is now over.\n\n";
+            gameOvr = true;
+        }
     }
     
-    }
                             //POST GAME
     
     if(crdCnt > crdCntE) //PLAYER WON
