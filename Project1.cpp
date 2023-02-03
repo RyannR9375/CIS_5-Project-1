@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
     
     //Map/Process the Inputs -> Outputs
     
-    //MENU SWITCH CASE (FUNCTION IN P2) //BROKEN RN
+    //MENU SWITCH CASE (FUNCTION IN P2)
     bool isValid = false;
     while(isValid == false){
     switch(choiceM){
@@ -380,11 +380,11 @@ int main(int argc, char** argv) {
     }
     
     //WHO WON THIS ROUND
-    if(total > enTotal && total < maxVal){ //PLAYER WON
+    if(total > enTotal && total <= maxVal){ //PLAYER WON
         cout << "You won this round. " << pile << " cards have been added to your deck.\n\n";
         crdCnt += pile;
         deckRem -= pile;
-    }else if(enTotal > total && enTotal < maxVal){ //ENEMY WON
+    }else if(enTotal > total && enTotal <= maxVal){ //ENEMY WON
         cout << "You have lost this round. " << pile << " cards have been added to the enemy's deck.\n\n";
         crdCntE += pile;
         deckRem -= pile;
