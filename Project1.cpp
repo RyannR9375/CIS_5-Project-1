@@ -32,13 +32,16 @@ int main(int argc, char** argv) {
     const int deckSz = 52;
     //WILL BE REPLACED WITH ARRAYS IN PROJECT 2
     int deckRem = deckSz;
+    ofstream Record ("record.txt");
     
     //PLAYERS VALUES
     int numCrd1, suitCrd1,//PLAYERS CARD 1 VALUE AND SUIT
         numCrd2, suitCrd2,// PLAYERS CARD 2 VALUE AND SUIT
         cardVal1, cardVal2, //VALUE OF PLAYERS CARD 
         total, //TOTAL VALUE OF PLAYERS CARDS
-            crdCnt; //AMOUNT OF CARDS PLAYER HAS IN DECK
+            crdCnt, //AMOUNT OF CARDS PLAYER HAS IN DECK
+            winCnt, //AMOUNT OF WINS THE PLAYER HAS OBTAINED, ADDS TO A TEXT FILE
+            tieCnt; //AMOUNT OF TIMES THE PLAYER AND ENEMY HAS TIED.
     
     string suit1, suit2, //USED TO COMPARE AND FIND WHAT SUIT PLAYERS CARDS HAS
            card1, card2; //USED TO COMPARE AND FIND WHAT CARDS PLAYER HAS
@@ -50,21 +53,23 @@ int main(int argc, char** argv) {
         enemV1, enemV2, //VALUE OF ENEMYS CARD 
         enTotal, //TOTAL VALUE OF ENEMIES CARDS
             crdCntE, //AMOUNT OF CARDS ENEMY HAS IN DECK
-            eChoice; //WHEN THE ENEMY RECIEVES AN ACE
+            eChoice, //WHEN THE ENEMY RECIEVES AN ACE
+            winCntE;//AMOUNT OF WINS THE PLAYER HAS OBTAINED, ADDS TO A TEXT FILE
     
     string eSuit1, eSuit2, //USED TO COMPARE AND FIND WHAT SUIT ENEMYS CARDS HAS
            eCard1, eCard2; //USED TO COMPARE AND FIND WHAT CARDS ENEMY HAS
     
     //OTHER
     char choiceM, continu;
-    short maxVal = 21, //HIGHEST VALUE BEFORE YOU LOSE
-    pile = 4; //STANDARD SIZE OF PILE
+    short maxVal = 21; //HIGHEST VALUE BEFORE YOU LOSE
+    float pile = 4; //STANDARD SIZE OF PILE
     string oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE//HOW MANY CARDS ARE ON THE LINE? (WILL BE USED IN A FUNCTION & CALL FROM ARRAY IN P2) WILL BE STATIC
     bool gameOvr = false; //BOOL TO CHECK IF GAME IS OVER
     
     //Initialize Variables
     crdCnt = 0;
     crdCntE = 0;
+    
     //WELCOME MESSAGE & MENU (WILL BE REPLACED WITH A FUNCTION IN PROJECT 2)
     cout << "Welcome to 21: The Card Game\n----------------------------\n" <<
             "Enter '1' to PLAY\n" <<
@@ -95,6 +100,8 @@ int main(int argc, char** argv) {
                 "Number cards retain the value of their number. EX: The 3 of Spades has a value of 3." <<
                 "Face cards retain a value of 10. EX: The Queen of Hearts has a value of 10." << 
                 "An Ace leaves you with the decision to choose its value of 1 or 11." <<
+                "You win a round by having a greater total value than your opponent, but having a value less than 22." <<
+                "If your total value goes past 21, you will automatically lose the round." <<
                 "The goal of this game is to win as many rounds as possible. Winning a round grants you with the cards in the pile, and at play that round." <<
                 "If you tie, the cards you just played with will be added to the pile and you will continue rounds until somebody wins." <<
                 "The game is over when there are no more remaining cards in the deck." << 
@@ -121,7 +128,7 @@ int main(int argc, char** argv) {
     //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS
     
                             //THE GAME
-    while(gameOvr == false){
+    while(gameOvr != true){
         
     //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS) MAKES SURE THE CARDS ARE NOT THE SAME, IF THEY AREM RE-ASIGN VALUES
     for(int i = 0; i < 2; i++){
@@ -464,12 +471,22 @@ int main(int argc, char** argv) {
     }
        
                                //POST GAME
-    if(crdCnt > crdCntE)      //PLAYER WON
+    if(crdCnt > crdCntE){      //PLAYER WON
         cout << "               YOU WIN!\n           CONGRATULATIONS!";
-    else if(crdCntE > crdCnt) // ENEMY WON
+        winCnt += 1;
+    }
+    else if(crdCntE > crdCnt){ // ENEMY WON
         cout << "               YOU LOST!\n          BETTER LUCK NEXT TIME!";
-    else if(crdCnt == crdCntE) // TIED
+        winCntE += 1;
+    }
+    else if(crdCnt == crdCntE){ // TIED
         cout << "               YOU TIED!\n          WHAT ARE THE CHANCES!";
+        tieCnt += 1;
+    }
+    
+    Record << "PLAYER WIN COUNT: " << winCnt << endl << 
+              "ENEMY WIN COUNT: " << winCntE << endl << 
+              "TIE COUNT: " << tieCnt;
     
     return 0;
     }
