@@ -49,15 +49,15 @@ int main(int argc, char** argv) {
         enCrd2, enemSt2, // ENEMY CARD 2 VALUE AND SUIT
         enemV1, enemV2, //VALUE OF ENEMYS CARD 
         enTotal, //TOTAL VALUE OF ENEMIES CARDS
-            crdCntE; //AMOUNT OF CARDS ENEMY HAS IN DECK
+            crdCntE, //AMOUNT OF CARDS ENEMY HAS IN DECK
+            eChoice; //WHEN THE ENEMY RECIEVES AN ACE
     
     string eSuit1, eSuit2, //USED TO COMPARE AND FIND WHAT SUIT ENEMYS CARDS HAS
-           eCard1, eCard2, //USED TO COMPARE AND FIND WHAT CARDS ENEMY HAS
-            eChoice; //WHEN THE ENEMY RECIEVES AN ACE
+           eCard1, eCard2; //USED TO COMPARE AND FIND WHAT CARDS ENEMY HAS
     
     //OTHER
     char choiceM, continu;
-    int maxVal = 21, //HIGHEST VALUE BEFORE YOU LOSE
+    short maxVal = 21, //HIGHEST VALUE BEFORE YOU LOSE
     pile = 4; //STANDARD SIZE OF PILE
     string oneOrNo; //WHEN THE PLAYER RECIEVES AN ACE//HOW MANY CARDS ARE ON THE LINE? (WILL BE USED IN A FUNCTION & CALL FROM ARRAY IN P2) WILL BE STATIC
     bool gameOvr = false; //BOOL TO CHECK IF GAME IS OVER
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     
     //MENU SWITCH CASE (FUNCTION IN P2)
     bool isValid = false;
-    while(isValid == false){
+    do{
     switch(choiceM){
         case '0': //WELCOME MESSAGE & MENU (WILL BE REPLACED WITH A FUNCTION IN PROJECT 2)
             isValid = true;
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
                 isValid = false;
                 cin >> choiceM;
         }
-    }
+    }while(isValid == false);
     
     
     //Display Inputs/Outputs
@@ -123,15 +123,67 @@ int main(int argc, char** argv) {
                             //THE GAME
     while(gameOvr == false){
         
-                                    //PLAYER
+    //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS) MAKES SURE THE CARDS ARE NOT THE SAME, IF THEY AREM RE-ASIGN VALUES
     for(int i = 0; i < 2; i++){
+                                //ENEMY RANDOM VALUES
+        enCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+        enemSt1 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        
+        enCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+        enemSt2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        
+                                //PLAYER RANDOM VALUES
         numCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
         suitCrd1 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
         
         numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
         suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
         
-    //DECIDES WHAT THE FIRST CARD IS BASED ON THE RANDOM (FUNCTION IN P2)
+        if(numCrd1 == numCrd2 && suitCrd1 == suitCrd2){ //PLAYER CARD 1 SAME AS PLAYER CARD 2
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd1 = num1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd1 = num2; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(numCrd1 == enCrd1 && suitCrd1 == enemSt1){ //PLAYER CARD 1 SAME AS ENEMY CARD 1
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd1 = num1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd1 = num2; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(numCrd2 == enCrd2 && suitCrd2 == enemSt2){ // PLAYER CARD 2 SAME AS ENEMY CARD 2
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(numCrd1 == enCrd2 && suitCrd1 == enemSt2){// PLAYER CARD 1 SAME AS ENEMY CARD 2
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd1 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(numCrd2 == enCrd1 && suitCrd2 == enemSt1){// PLAYER CARD 2 SAME AS ENEMY CARD 1
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+        if(enCrd1 == enCrd2 && enemSt1 == enemSt2){// ENEMY CARD 1 SAME AS ENEMY CARD 2
+            int num1 = rand()%13+1;
+            int num2 = rand()%4+1;
+            
+            enCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
+            enemSt1 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
+        }
+    }
+    
+                    //PLAYER
     switch(numCrd1){
         case 13: card1 = "King"; break;
         case 12: card1 = "Queen"; break;
@@ -154,12 +206,6 @@ int main(int argc, char** argv) {
         case 3: suit1 = "of Hearts"; break;
         case 2: suit1 = "of Diamonds"; break;
         case 1: suit1 = "of Clubs"; break;
-    }
-    
-    //MAKES SURE THE CARDS ARE NOT THE SAME, IF THEY AREM RE-ASIGN VALUES
-    if(numCrd1 == numCrd2 && suitCrd1 == suitCrd2){
-        numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
     }
     
     //DECIDES WHAT THE SECOND CARD IS BASED ON THE RANDOM (FUNCTION IN P2)
@@ -186,28 +232,8 @@ int main(int argc, char** argv) {
         case 2: suit2 = "of Diamonds"; break;
         case 1: suit2 = "of Clubs"; break;
     }
-    }
     
-    //KEEPS CARD VALUES TO GAME RULES
-    if(numCrd1 >= 10)
-        cardVal1 = 10;
-    else
-        cardVal1 = numCrd1;
-    
-    if(numCrd2 >= 10)
-        cardVal2 = 10;
-    else
-        cardVal2 = numCrd2;
-    
-                                    //ENEMY
-    //CREATING/DISTRIBUTING CARDS (FUNCTION IN P2 USING ARRAYS
-    for(int i = 0; i < 2; i++){
-        enCrd1 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        enemSt1 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-        
-        enCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-        enemSt2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-        
+                        //ENEMY
     //DECIDES WHAT THE FIRST CARD IS BASED ON THE RANDOM (FUNCTION IN P2)
     switch(enCrd1){
         case 13: eCard1 = "King"; break;
@@ -233,30 +259,6 @@ int main(int argc, char** argv) {
         case 1: eSuit1 = "of Clubs"; break;
     }
     
-    //MAKES SURE THE CARDS ARE NOT THE SAME, IF THEY AREM RE-ASIGN VALUES
-        if(numCrd1 == enCrd1 && suitCrd1 == enemSt1){
-            int num1 = rand()%13+1;
-            int num2 = rand()%4+1;
-            
-            numCrd2 = num1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-            suitCrd2 = num2; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-        }
-        
-        if(numCrd2 == enCrd2 && suitCrd2 == enemSt2){
-            int num1 = rand()%13+1;
-            int num2 = rand()%4+1;
-            
-            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-        }
-        if(enCrd1 == enCrd2 && enemSt1 == enemSt2){
-            int num1 = rand()%13+1;
-            int num2 = rand()%4+1;
-            
-            numCrd2 = rand()%13+1; //ASSIGNS THE CARD A RANDOM VALUE, 1-13, ABOVE 10 IS JACK, QUEEN, KING
-            suitCrd2 = rand()%4+1; //ASSIGNS THE CARD A RANDOM SUIT, 1 = SPADES, 2 = HEARTS, 3 = DIAMONDS, 4 = CLUBS
-        }
-    
     //DECIDES WHAT THE SECOND CARD IS BASED ON THE RANDOM (FUNCTION IN P2)
     switch(enCrd2){
         case 13: eCard2 = "King";  break;
@@ -281,15 +283,25 @@ int main(int argc, char** argv) {
         case 2: eSuit2 = "of Diamonds"; break;
         case 1: eSuit2 = "of Clubs"; break;
     }
-    }
     
-    //KEEPS CARD VALUES TO GAME RULES
+    //KEEPS PLAYER CARD VALUES TO GAME RULES
+    if(numCrd1 >= 10)
+        cardVal1 = 10;
+    else
+        cardVal1 = numCrd1;
+    
+    if(numCrd2 >= 10)
+        cardVal2 = 10;
+    else
+        cardVal2 = numCrd2;
+    
+    //KEEPS ENEMY CARD VALUES TO GAME RULES
     if(enCrd1 >= 10)
         enemV1 = 10;
     else
         enemV1 = enCrd1;
     
-    if(enCrd1 >= 10)
+    if(enCrd2 >= 10)
         enemV2 = 10;
     else
         enemV2 = enCrd2;
@@ -299,18 +311,32 @@ int main(int argc, char** argv) {
             << endl << card1 << " " << suit1 << fixed << setw(21) << eCard1 << " " << eSuit1//CARD 1 OF PLAYER AND ENEMY
             << endl << card2 << " " << suit2 << fixed << setw(21) << eCard2 << " " << eSuit2 << endl; //CARD 2 OF PLAYER AND ENEMY
     
-    /* //IF THE ENEMY GETS AN ACE, THEY GET TO PICK BETWEEN 1 OR 11 (FUNCTION IN P2, CARD1 & CARD2 WILL BE AN ARRAY)
+    //IF THE ENEMY GETS AN ACE, THEY GET TO PICK BETWEEN 1 OR 11 (FUNCTION IN P2, CARD1 & CARD2 WILL BE AN ARRAY)
+    //PSEUDO-AI
     if(eCard1 == "Ace"){
         cout << "The enemy got an Ace, which means they will get to pick if the value of this card" <<
                 " will be 1, or 11.\n";
-        //RANDOM
+        eChoice = rand()%2+1;
+        if(eChoice == 1){
+            cout << "The enemy has chosen this Ace to have a value of 1.\n";
+            enemV1 = 1;
+        }else{
+            cout << "The enemy has chosen this Ace to have a value of 11.\n";
+            enemV1 = 11;
+        }
     }
     
-    if(card2 == "Ace"){
+    if(eCard2 == "Ace"){
         cout << "The enemy got an Ace, which means they will get to pick if the value of this card" <<
                 " will be 1, or 11.\n";
-        //RANDOM
-    } */
+        if(eChoice == 1){
+            cout << "The enemy has chosen this Ace to have a value of 1.\n";
+            enemV2 = 1;
+        }else{
+            cout << "The enemy has chosen this Ace to have a value of 11.\n";
+            enemV2 = 11;
+        }
+    } 
     
     enTotal = enemV1 + enemV2; //TOTAL VALUE OF ENEMIES CARDS
     
@@ -419,7 +445,7 @@ int main(int argc, char** argv) {
     
         while(valid == false){
         if(continu == 'R'){
-            cout << "\n\n\n\n NEXT ROUND\n";
+            cout << "\n\n\n\n               NEXT ROUND\n";
             valid = true;
         }else if(continu == 'N'){
             valid = true;
@@ -431,25 +457,19 @@ int main(int argc, char** argv) {
             }
         }
         
-    }else if(deckRem <= 0){
+    }else if(static_cast<short>(deckRem) <= 0){
             cout << "The deck is empty and the game is now over.\n\n";
             gameOvr = true;
         }
     }
-    
-                            //POST GAME
-    
-    if(crdCnt > crdCntE) //PLAYER WON
+       
+                               //POST GAME
+    if(crdCnt > crdCntE)      //PLAYER WON
         cout << "               YOU WIN!\n           CONGRATULATIONS!";
     else if(crdCntE > crdCnt) // ENEMY WON
         cout << "               YOU LOST!\n          BETTER LUCK NEXT TIME!";
-    else if(crdCnt == crdCntE)
+    else if(crdCnt == crdCntE) // TIED
         cout << "               YOU TIED!\n          WHAT ARE THE CHANCES!";
-
     
-    
-    //Clean up memory and files
-    
-    //Exit the Program
     return 0;
     }
